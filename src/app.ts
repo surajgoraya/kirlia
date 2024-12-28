@@ -5,6 +5,10 @@ import { getHealthInfo, getRandomGIF } from "./lib/Lib";
 const app = express();
 const port = process.env.PORT || 3000;
 
+if (process.env.IS_PROXIED) {
+  app.enable("trust proxy");
+}
+
 app.use(
   helmet({
     crossOriginResourcePolicy: {
