@@ -17,7 +17,7 @@ Kirlia is extremely bare bones and does not use a web interface for setup. Every
 
   - Set `PORT` to your desired port (defaults to 3000).
   - Set `KEY` to a randomized key value you'll use when sending requests. More on that below.
-  - Set your CORS policy, `same-site` is recommend as it allows you to host this service on one domain, and call it on another. `cross-origin` is the most lax, but will allow your resources to be used internet wide. Not just on your domain.
+  - ~~Set your CORS policy, `same-site` is recommend as it allows you to host this service on one domain, and call it on another. `cross-origin` is the most lax, but will allow your resources to be used internet wide. Not just on your domain.~~
 
 - Install dependencies: `npm i`
 

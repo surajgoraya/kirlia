@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.use(
   helmet({
     crossOriginResourcePolicy: {
-      policy: process.env.CORS_POLICY ?? "same-site",
+      policy: "same-site",
     },
   })
 );
