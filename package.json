@@ -1,0 +1,25 @@
+{
+  "name": "kirlia",
+  "version": "1.0.0",
+  "description": "A file server which serves a random file",
+  "main": "app.ts",
+  "scripts": {
+    "start": "tsc && node --env-file=.env dist/app.js",
+    "dev": "tsx watch --env-file=.env ./src/app.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@surajgoraya",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "handlebars": "^4.7.8",
+    "helmet": "^8.0.0",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
