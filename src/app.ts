@@ -5,7 +5,13 @@ import { getHealthInfo, getRandomGIF } from "./lib/Lib";
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(helmet({ crossOriginResourcePolicy: { policy: "same-site" } }));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: process.env.CORS_POLICY ?? "same-site",
+    },
+  })
+);
 
 /**
  * Middleware to tell google to not index anything returned.
