@@ -21,7 +21,7 @@ app.use(
 );
 
 //static directory to serve our favicon
-app.use(express.static(path.join(process.cwd(), "src", "assets")));
+app.use(express.static(path.join(__dirname, "assets")));
 
 /**
  * Middleware to tell google to not index anything returned.
