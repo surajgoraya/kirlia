@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import path from "path";
 import { getHealthInfo, getRandomGIF } from "./lib/services";
 import { templates } from "./lib/templates";
 import { processEnvironmentConfig } from "./lib/configuration";
@@ -14,10 +15,13 @@ if (process.env.IS_PROXIED) {
 app.use(
   helmet({
     crossOriginResourcePolicy: {
-      policy: processEnvironmentConfig({config: process.env.CORS_POLICY})
+      policy: processEnvironmentConfig({ config: process.env.CORS_POLICY }),
     },
   })
 );
+
+//static directory to serve our favicon
+app.use(express.static(path.join(process.cwd(), "src", "assets")));
 
 /**
  * Middleware to tell google to not index anything returned.
@@ -53,6 +57,11 @@ app.get("/", async (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).json(getHealthInfo());
 });
+
+//catch all route for 404s
+app.use((req, res, next) => {
+  res.status(404).send(templates.errors.notFound)
+})
 
 app.listen(port, () => {
   console.info(
