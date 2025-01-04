@@ -21,7 +21,7 @@ app.use(
 );
 
 //static directory to serve our favicon
-app.use(express.static(path.join(__dirname, "assets")));
+app.use(express.static(path.join(process.cwd(), "src", "assets")));
 
 /**
  * Middleware to tell google to not index anything returned.
@@ -60,8 +60,8 @@ app.get("/health", (req, res) => {
 
 //catch all route for 404s
 app.use((req, res, next) => {
-  res.status(404).send(templates.errors.notFound)
-})
+  res.status(404).send(templates.errors.notFound);
+});
 
 app.listen(port, () => {
   console.info(
