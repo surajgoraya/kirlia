@@ -11,10 +11,9 @@ function getHealthInfo() {
 function getRandomGIF() {
   const files = readdirSync(path.join(process.cwd(), "static"));
 
-  const allFiles = files.length - 1;
-  const index = Math.round(Math.random() * allFiles);
-  const file = files[index];
+  const randomIndex = Math.floor(Math.random() * files.length);
 
+  const file = files[randomIndex];
   const filePath = path.join(process.cwd(), "static", file);
 
   return filePath;
