@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "tsc --project ./tsconfig.json && node --env-file=.env dist/app.js",
 		"build": "tsc --project ./tsconfig.json",
-		"migrate": "git pull && npm install && npm run build && echo Newest version of Kirlia has been pulled and dependencies have been installed. Start the server by running npm start",
+		"migrate": "git pull && npm install && npm run build && echo Newest version of Kirlia has been pulled and dependencies have been installed. Start the server by running npm start.",
 		"dev": "tsx watch --env-file=.env ./src/app.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
