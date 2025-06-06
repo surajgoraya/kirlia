@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "fs";
+import { readdirSync } from "fs";
 import path from "path";
 
 function getHealthInfo() {
@@ -9,14 +9,18 @@ function getHealthInfo() {
 }
 
 function getRandomGIF() {
-  const files = readdirSync(path.join(process.cwd(), "static"));
+  try {
+    const files = readdirSync(path.join(process.cwd(), "static"));
 
-  const randomIndex = Math.floor(Math.random() * files.length);
+    const randomIndex = Math.floor(Math.random() * files.length);
 
-  const file = files[randomIndex];
-  const filePath = path.join(process.cwd(), "static", file);
+    const file = files[randomIndex];
+    const filePath = path.join(process.cwd(), "static", file);
 
-  return filePath;
+    return filePath;
+  } catch {
+    return undefined;
+  }
 }
 
 export { getRandomGIF, getHealthInfo };

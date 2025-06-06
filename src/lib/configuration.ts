@@ -1,3 +1,5 @@
+import { logger } from "./logger";
+
 interface CORSPolicyOpt {
   config: string | undefined;
 }
@@ -11,8 +13,8 @@ const processEnvironmentConfig = ({ config }: CORSPolicyOpt) => {
     case "cross-origin":
       return "cross-origin";
     default:
-      console.warn(
-        "[Kirlia Warn]: Invalid or no CORS policy listed in .env file. Defaulting to same-site."
+      logger.warn(
+        "Invalid or no CORS policy listed in .env file. Defaulting to same-site."
       );
       return "same-site";
   }

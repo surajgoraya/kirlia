@@ -1,9 +1,11 @@
 import express from "express";
 import helmet from "helmet";
 import path from "path";
+
 import { getHealthInfo, getRandomGIF } from "./lib/services";
 import { templates } from "./lib/templates";
 import { processEnvironmentConfig } from "./lib/configuration";
+import { logger } from "./lib/logger";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -41,12 +43,13 @@ app.get("/", async (req, res) => {
 
       res.sendFile(randomGIF);
     } else {
-      console.error("[Kirlia Error]:", "Unable to get random GIF.");
+      logger.error(
+        "Unable to get random GIF. More than likely the ./static folder is missing."
+      );
       res.status(500).send(templates.errors.serverError);
     }
   } else {
-    console.warn(
-      "[Kirlia Warn]:",
+    logger.warn(
       "Unauthorized access. Requesting IP: ",
       req.ips.length ? req.ips : req.ip
     );
@@ -64,7 +67,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.info(
-    `Kirlia is listening on ${port} - Online as of ${new Date().toLocaleDateString()} @ ${new Date().toLocaleTimeString()}`
+  logger.info(
+    `Kirlia is listening on port ${port} - Online as of ${new Date().toLocaleDateString()} @ ${new Date().toLocaleTimeString()}`
   );
 });
