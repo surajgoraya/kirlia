@@ -2,10 +2,10 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
-import { processEnvironmentConfig } from '@/lib/configuration';
-import { logger } from '@/lib/logger';
-import { getHealthInfo, getRandomGIF } from '@/lib/services';
-import { templates } from '@/lib/templates';
+import { processEnvironmentConfig } from './lib/configuration';
+import { logger } from './lib/logger';
+import { getHealthInfo, getRandomGIF } from './lib/services';
+import { templates } from './lib/templates';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -59,6 +59,15 @@ app.get('/health', (req, res) => {
 //catch all route for 404s
 app.use((req, res, next) => {
 	res.status(404).send(templates.errors.notFound);
+});
+
+//@ts-ignore
+app.use((err, req, res, next) => {
+	logger.error(
+		`Uncaught Error! In ${req.url} - Serving 503.\n\n\t Please report this in GitHub issues. Error below:\n\t`,
+		err,
+	);
+	res.status(503).send(templates.errors.serviceUnavailable);
 });
 
 app.listen(port, () => {
