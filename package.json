@@ -1,23 +1,25 @@
 {
-  "name": "kirlia",
-  "version": "1.1.2",
-  "description": "A microservice which randomly serves a random GIF file from a directory.",
-  "main": "app.ts",
-  "scripts": {
-    "start": "tsc && node --env-file=.env dist/app.js",
-    "dev": "tsx watch --env-file=.env ./src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "@surajgoraya",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.21.2",
-    "helmet": "^8.0.0",
-    "tsx": "^4.19.2"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.10.2",
-    "typescript": "^5.7.2"
-  }
+	"name": "kirlia",
+	"version": "1.2.2",
+	"description": "A microservice which randomly serves a random GIF file from a directory.",
+	"main": "app.ts",
+	"scripts": {
+		"start": "tsc --project ./tsconfig.json && node --env-file=.env dist/app.js",
+		"dev": "tsx watch --env-file=.env ./src/app.ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "@surajgoraya",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^5.1.0",
+		"helmet": "^8.1.0",
+		"tsx": "^4.19.4"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.2",
+		"@types/node": "^22.15.29",
+		"prettier": "3.5.3",
+		"prettier-plugin-organize-imports": "^4.1.0",
+		"typescript": "^5.8.3"
+	}
 }
