@@ -1,27 +1,27 @@
 {
-  "name": "kirlia",
-  "version": "1.2.3",
-  "description": "A microservice which randomly serves a random GIF file from a directory.",
-  "main": "app.ts",
-  "scripts": {
-    "start": "tsc --project ./tsconfig.json && node --env-file=.env dist/app.js",
-    "build": "tsc --project ./tsconfig.json",
-    "migrate": "git pull && npm install && npm run build && echo Newest version of Kirlia has been pulled and dependencies have been installed. Start the server by running npm start",
-    "dev": "tsx watch --env-file=.env ./src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "@surajgoraya",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^5.1.0",
-    "helmet": "^8.1.0",
-    "tsx": "^4.19.4"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.2",
-    "@types/node": "^22.15.29",
-    "prettier": "3.5.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
-    "typescript": "^5.8.3"
-  }
+	"name": "kirlia",
+	"version": "1.2.3",
+	"description": "A microservice which randomly serves a random GIF file from a directory.",
+	"main": "app.ts",
+	"scripts": {
+		"start": "tsc --project ./tsconfig.json && node --env-file=.env dist/app.js",
+		"build": "tsc --project ./tsconfig.json",
+		"migrate": "git pull && npm install && npm run build && echo Newest version of Kirlia has been pulled and dependencies have been installed. Start the server by running npm start",
+		"dev": "tsx watch --env-file=.env ./src/app.ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "@surajgoraya",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^5.1.0",
+		"helmet": "^8.1.0",
+		"tsx": "^4.19.4"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.2",
+		"@types/node": "^22.15.29",
+		"prettier": "3.5.3",
+		"prettier-plugin-organize-imports": "^4.1.0",
+		"typescript": "^5.8.3"
+	}
 }
