@@ -2,13 +2,15 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
-import { processEnvironmentConfig } from './lib/configuration';
+import { processCORSConfiguration, processKeyConfiguration } from './lib/configuration';
 import { logger } from './lib/logger';
+import { logRequests } from './lib/middleware/requestLogger';
 import { getHealthInfo, getRandomGIF } from './lib/services';
 import { templates } from './lib/templates';
 
 const app = express();
 const port = process.env.PORT || 3000;
+const AUTHORIZED_KEYS = processKeyConfiguration(process.env.KEY);
 
 if (process.env.IS_PROXIED) {
 	app.enable('trust proxy');
@@ -17,10 +19,14 @@ if (process.env.IS_PROXIED) {
 app.use(
 	helmet({
 		crossOriginResourcePolicy: {
-			policy: processEnvironmentConfig({ config: process.env.CORS_POLICY }),
+			policy: processCORSConfiguration(process.env.CORS_POLICY),
 		},
 	}),
 );
+
+if (process.env.ACCESS_LOG) {
+	app.use(logRequests);
+}
 
 //static directory to serve our favicon
 app.use(express.static(path.join(process.cwd(), 'src', 'assets')));
@@ -36,7 +42,7 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
 	const randomGIF = await getRandomGIF();
 
-	if (req.query.key && req.query.key === process.env.KEY) {
+	if (req.query.key && AUTHORIZED_KEYS.includes(req.query.key.toString())) {
 		if (randomGIF !== undefined) {
 			res.setHeader('Cache-Control', 'no-cache');
 			res.setHeader('Expires', '0');
