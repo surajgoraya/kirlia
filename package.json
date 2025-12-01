@@ -13,7 +13,7 @@
 	"author": "@surajgoraya",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^5.1.0",
+		"express": "^5.2.0",
 		"helmet": "^8.1.0",
 		"tsx": "^4.19.4"
 	},
