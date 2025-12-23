@@ -16,11 +16,22 @@ const processCORSConfiguration = (config: string | undefined) => {
 
 const processKeyConfiguration = (key: string | undefined) => {
 	if (!key) {
-		logger.error('❌ Cannot start Kirlia: No Key specified in .env file.');
+		logger.error('❌ Cannot start Kirlia - no key specified in .env file.');
 		process.exit(1);
 	}
-
 	return key.split(',').map((key) => key.trim());
 };
 
-export { processCORSConfiguration, processKeyConfiguration };
+const processGenericConfiguration = (configVar: string | undefined, shouldError: boolean = false) => {
+	if (configVar && configVar.toLocaleLowerCase() === 'true') {
+		return true;
+	}
+	if (shouldError) {
+		logger.error(`❌ Cannot start Kirlia - ${configVar} is not defined or is set to false.`);
+		process.exit(1);
+	}
+
+	return false;
+};
+
+export { processCORSConfiguration, processGenericConfiguration, processKeyConfiguration };

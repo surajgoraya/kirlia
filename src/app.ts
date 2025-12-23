@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { type ErrorRequestHandler, type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
-import { processCORSConfiguration, processKeyConfiguration } from './lib/configuration';
+import { processCORSConfiguration, processGenericConfiguration, processKeyConfiguration } from './lib/configuration';
 import { logger } from './lib/logger';
 import { logRequests } from './lib/middleware/requestLogger';
 import { getHealthInfo, getRandomGIF } from './lib/services';
@@ -10,12 +10,6 @@ import { templates } from './lib/templates';
 
 const app = express();
 const port = process.env.PORT || 3000;
-const AUTHORIZED_KEYS = processKeyConfiguration(process.env.KEY);
-
-if (process.env.IS_PROXIED) {
-	app.enable('trust proxy');
-}
-
 app.use(
 	helmet({
 		crossOriginResourcePolicy: {
@@ -24,7 +18,11 @@ app.use(
 	}),
 );
 
-if (process.env.ACCESS_LOG) {
+const AUTHORIZED_KEYS = processKeyConfiguration(process.env.KEY);
+if (processGenericConfiguration(process.env.IS_PROXIED)) {
+	app.enable('trust proxy');
+}
+if (processGenericConfiguration(process.env.ACCESS_LOG)) {
 	app.use(logRequests);
 }
 
@@ -67,8 +65,7 @@ app.use((req, res, next) => {
 	res.status(404).send(templates.errors.notFound);
 });
 
-//@ts-ignore
-app.use((err, req, res, next) => {
+app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
 	logger.error(
 		`Uncaught Error! In ${req.url} - Serving 503.\n\n\t Please report this in GitHub issues. Error below:\n\t`,
 		err,
