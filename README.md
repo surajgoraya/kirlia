@@ -24,11 +24,23 @@ Kirlia is extremely bare bones and does not use a web interface for setup. Every
 ## Steps
 
 - Create .env file by using the following command: `cp .env.schema .env`
+  ```bash
+    # The port which the application will run on, defaults to 3000 if none is specified.
+    PORT=
 
-  - Set `PORT` to your desired port (defaults to 3000).
-  - Set `KEY` to a randomized key value you'll use when sending requests. More on that below.
-  - Set your CORS policy, `same-site` is recommend as it allows you to host this service on one domain, and call it on another. `cross-origin` is the most lax, but will allow your resources to be used internet wide. Not just on your domain.
-  - If you're running behind a proxy, be sure to set `IS_PROXIED=true`
+    # REQUIRED: The key(s) used when requesting resources. A basically useless security feature, but helps me feel better.
+    # ex: test,test2,test3
+    KEY=
+
+    # Enable logging of all requests, defaults to false.
+    ACCESS_LOG=false
+
+    # REQUIRED: The CORS policy governing the assets. Can be one of the following (strictest to lax): same-origin, same-site, cross-origin
+    CORS_POLICY=same-site
+
+    # Is behind a proxy, defaults to false.
+    IS_PROXIED=true
+  ```
 
 - Install dependencies: `npm i`
 

@@ -1,10 +1,6 @@
 import { logger } from './logger';
 
-interface CORSPolicyOpt {
-	config: string | undefined;
-}
-
-const processEnvironmentConfig = ({ config }: CORSPolicyOpt) => {
+const processCORSConfiguration = (config: string | undefined) => {
 	switch (config) {
 		case 'same-origin':
 			return 'same-origin';
@@ -18,4 +14,24 @@ const processEnvironmentConfig = ({ config }: CORSPolicyOpt) => {
 	}
 };
 
-export { processEnvironmentConfig };
+const processKeyConfiguration = (key: string | undefined) => {
+	if (!key) {
+		logger.error('❌ Cannot start Kirlia - no key specified in .env file.');
+		process.exit(1);
+	}
+	return key.split(',').map((key) => key.trim());
+};
+
+const processGenericConfiguration = (configVar: string | undefined, shouldError: boolean = false) => {
+	if (configVar && configVar.toLocaleLowerCase() === 'true') {
+		return true;
+	}
+	if (shouldError) {
+		logger.error(`❌ Cannot start Kirlia - ${configVar} is not defined or is set to false.`);
+		process.exit(1);
+	}
+
+	return false;
+};
+
+export { processCORSConfiguration, processGenericConfiguration, processKeyConfiguration };

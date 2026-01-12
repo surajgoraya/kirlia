@@ -1,26 +1,30 @@
-import express from 'express';
+import express, { type ErrorRequestHandler, type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
-import { processEnvironmentConfig } from './lib/configuration';
+import { processCORSConfiguration, processGenericConfiguration, processKeyConfiguration } from './lib/configuration';
 import { logger } from './lib/logger';
+import { logRequests } from './lib/middleware/requestLogger';
 import { getHealthInfo, getRandomGIF } from './lib/services';
 import { templates } from './lib/templates';
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-if (process.env.IS_PROXIED) {
-	app.enable('trust proxy');
-}
-
 app.use(
 	helmet({
 		crossOriginResourcePolicy: {
-			policy: processEnvironmentConfig({ config: process.env.CORS_POLICY }),
+			policy: processCORSConfiguration(process.env.CORS_POLICY),
 		},
 	}),
 );
+
+const AUTHORIZED_KEYS = processKeyConfiguration(process.env.KEY);
+if (processGenericConfiguration(process.env.IS_PROXIED)) {
+	app.enable('trust proxy');
+}
+if (processGenericConfiguration(process.env.ACCESS_LOG)) {
+	app.use(logRequests);
+}
 
 //static directory to serve our favicon
 app.use(express.static(path.join(process.cwd(), 'src', 'assets')));
@@ -36,7 +40,7 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
 	const randomGIF = await getRandomGIF();
 
-	if (req.query.key && req.query.key === process.env.KEY) {
+	if (req.query.key && AUTHORIZED_KEYS.includes(req.query.key.toString())) {
 		if (randomGIF !== undefined) {
 			res.setHeader('Cache-Control', 'no-cache');
 			res.setHeader('Expires', '0');
@@ -61,8 +65,7 @@ app.use((req, res, next) => {
 	res.status(404).send(templates.errors.notFound);
 });
 
-//@ts-ignore
-app.use((err, req, res, next) => {
+app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
 	logger.error(
 		`Uncaught Error! In ${req.url} - Serving 503.\n\n\t Please report this in GitHub issues. Error below:\n\t`,
 		err,
