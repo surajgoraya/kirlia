@@ -5,7 +5,6 @@ const templates = {
                   <h1>Unauthorized.</h1>
                   <p>Please provide a key when accessing GIF endpoint.</p>
                 </html>`,
-
 		serverError: `<html style="font-family: sans-serif; margin: auto; padding: 4rem 4rem;">
                   <img src="/kirlia-logo-dark.png" style="margin: 0 0 0 0; height: 4rem;"/>
                   <h1>Something has gone terribly wrong.</h1>
