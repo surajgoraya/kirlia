@@ -38,9 +38,9 @@ app.use((req, res, next) => {
 });
 
 app.get('/', async (req, res) => {
-	const randomGIF = await getRandomGIF();
-
 	if (req.query.key && AUTHORIZED_KEYS.includes(req.query.key.toString())) {
+		const randomGIF = await getRandomGIF();
+
 		if (randomGIF !== undefined) {
 			res.setHeader('Cache-Control', 'no-cache');
 			res.setHeader('Expires', '0');
