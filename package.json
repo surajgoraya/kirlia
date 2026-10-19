@@ -1,6 +1,6 @@
 {
 	"name": "kirlia",
-	"version": "1.3.4",
+	"version": "1.3.5",
 	"description": "A microservice which randomly serves a random GIF file from a directory.",
 	"main": "app.ts",
 	"scripts": {
@@ -13,15 +13,15 @@
 	"author": "@surajgoraya",
 	"license": "ISC",
 	"dependencies": {
-		"express": "^5.1.0",
-		"helmet": "^8.1.0",
+		"express": "^5.3.0",
+		"helmet": "^8.3.0",
 		"tsx": "^4.19.4"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.6",
-		"@types/node": "^22.15.29",
-		"prettier": "3.5.3",
+		"@types/node": "^26.6.5",
+		"prettier": "3.9.10",
 		"prettier-plugin-organize-imports": "^4.1.0",
-		"typescript": "^5.8.3"
+		"typescript": "^7.0.2"
 	}
 }
